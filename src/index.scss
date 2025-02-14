@@ -1,0 +1,26 @@
+$primary: #011425;
+$secondary: #0D2235;
+$tertiary: #1F4959;
+$quaternary: #5C7C89;
+$light: #BAC7CC;
+$dark: #242424;
+$danger: #dc3545;
+$warning: #ffc107;
+$success: #198754;
+
+$body-bg: $primary;
+$body-color: $light;
+
+$theme-colors: (
+    'primary': $primary,
+    'secondary': $secondary,
+    'tertiary': $tertiary,
+    'quaternary': $quaternary,
+    'light': $light,
+    'dark': $dark,
+    'danger': $danger,
+    'warning': $warning,
+    'success': $success
+);
+
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
