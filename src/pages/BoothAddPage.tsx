@@ -24,7 +24,6 @@ const BoothAddPage: React.FC = () => {
     return (
         <>
             <BackButton />
-            <h1>TESTTT</h1>
         </>
     )
 }

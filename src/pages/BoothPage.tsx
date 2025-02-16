@@ -5,7 +5,7 @@ import { usePage } from "../hooks/Context";
 import LoadingPage from "./LoadingPage";
 import { errorHandler } from "../hooks/ErrorHandler";
 import AddButton from "../components/AddButton";
-import Overflow from "../components/Overflow";
+import { Overflow } from "../components/Overflow";
 
 const BoothPage: React.FC = () => {
     const { setPage } = usePage();
@@ -37,9 +37,10 @@ const BoothPage: React.FC = () => {
 
     return (
         <>
-            <Overflow>
-                {booths.map((booth, index) => (
-                    <div key={index} className="col-md-4 mb-4">
+            <Overflow height="calc(100vh - 90px)">
+                <div className="d-flex flex-md-wrap">
+                    {booths.map((booth) => (
+                        <div key={booth.id} className="col-md-4 p-3">
                         <a href={"/booths/".concat(booth.id)} className="card bg-tertiary text-white h-100 w-100 text-decoration-none">
                             <div className="card-body">
                                 <h4 className="card-title">{booth.name}</h4>
@@ -66,7 +67,8 @@ const BoothPage: React.FC = () => {
                             </div>
                         </a>
                     </div>
-                ))}
+                    ))}
+                </div>
             </Overflow>
             <AddButton />
         </>

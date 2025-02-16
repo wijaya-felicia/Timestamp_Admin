@@ -23,4 +23,17 @@ $theme-colors: (
     'success': $success
 );
 
+:root {
+    font-size: 16px;
+    --primary: #{$primary};
+    --secondary: #{$secondary};
+    --tertiary: #{$tertiary};
+    --quaternary: #{$quaternary};
+    --light: #{$light};
+    --dark: #{$dark};
+    --danger: #{$danger};
+    --warning: #{$warning};
+    --success: #{$success};
+}
+
 @import '../node_modules/bootstrap/scss/bootstrap.scss';

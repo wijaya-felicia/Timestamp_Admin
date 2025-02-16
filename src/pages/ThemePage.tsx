@@ -4,7 +4,7 @@ import { errorHandler } from "../hooks/ErrorHandler";
 import { Theme } from "../types/Theme";
 import _theme from "../services/ThemeService";
 import LoadingPage from "./LoadingPage";
-import Overflow from "../components/Overflow";
+import { Overflow } from "../components/Overflow";
 import AddButton from "../components/AddButton";
 
 const ThemePage: React.FC = () => {
@@ -36,28 +36,30 @@ const ThemePage: React.FC = () => {
 
     return (
         <>
-            <Overflow>
-                {themes.map((theme, index) => (
-                    <div key={index} className="col-md-4 mb-4" style={{minHeight: "150px"}}>
-                        <a href={"/themes/".concat(theme.id)} className="card bg-tertiary text-white h-100 w-100 text-decoration-none">
-                            <div className="row h-100">
-                                <div className="col-md-5">
-                                    <img src={theme.url} alt="" className="img-fluid rounded h-100" />
-                                </div>
-                                <div className="col-md-7 ps-md-0">
-                                    <div className="card-body d-flex flex-column h-100 justify-content-between">
-                                        <h4 className="card-title">{theme.name}</h4>
-                                        <div className="d-flex justify-content-end">
-                                            <a href={"/themes/".concat(theme.id)} className="btn btn-secondary">
-                                                Details
-                                            </a>
+            <Overflow height="calc(100vh - 90px)">
+                <div className="d-flex flex-md-wrap">
+                    {themes.map((theme) => (
+                        <div key={theme.id} className="col-md-4 p-3" style={{minHeight: "150px"}}>
+                            <a href={"/themes/".concat(theme.id)} className="card bg-tertiary text-white h-100 w-100 text-decoration-none">
+                                <div className="row h-100">
+                                    <div className="col-md-5">
+                                        <img src={theme.url} alt="" className="img-fluid rounded h-100" />
+                                    </div>
+                                    <div className="col-md-7 ps-md-0">
+                                        <div className="card-body d-flex flex-column h-100 justify-content-between">
+                                            <h4 className="card-title">{theme.name}</h4>
+                                            <div className="d-flex justify-content-end">
+                                                <a href={"/themes/".concat(theme.id)} className="btn btn-secondary">
+                                                    Details
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
-                    </div>
-                ))}
+                            </a>
+                        </div>
+                    ))}
+                </div>
             </Overflow>
             <AddButton />
         </>

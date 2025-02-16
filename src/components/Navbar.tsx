@@ -22,9 +22,9 @@ const Navbar: React.FC = () => {
     
     return (
         <>
-            <nav className="navbar navbar-expand-lg">
+            <nav className="navbar navbar-expand">
                 <div className="container-fluid px-3">
-                    <a className="navbar-brand text-white fs-3" href="#">Timestamp | Admin</a>
+                    <a className="navbar-brand text-white fs-3" href="/">Timestamp | Admin</a>
                     <h1 className="text-white fs-3 m-auto d-none d-md-block">{page}</h1>
                     <div id="navbarNavDropdown">
                         <ul className="navbar-nav ms-auto">

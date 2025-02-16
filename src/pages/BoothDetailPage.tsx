@@ -9,6 +9,7 @@ import { Theme } from "../types/Theme";
 import { errorHandler } from "../hooks/ErrorHandler";
 import InvalidPage from "./InvalidPage";
 import BackButton from "../components/BackButton";
+import { Overflow } from "../components/Overflow";
 
 const BoothDetailPage: React.FC = () => {
   const { setPage } = usePage();
@@ -64,9 +65,9 @@ const BoothDetailPage: React.FC = () => {
 
   return (
     <>
-      <BackButton />
-      {booth?.name}
-      {theme?.name}
+      <Overflow height="calc(100vh - 90px)">
+        <BackButton />
+      </Overflow>
     </>
   )
 }
