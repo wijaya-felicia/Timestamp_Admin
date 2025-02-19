@@ -141,7 +141,7 @@ const DashboardPage: React.FC = () => {
                     <div className="d-flex flex-column flex-lg-row px-3 w-100 gap-3" style={{maxHeight: "calc(100vh - 276px)"}}>
                         <div className="flex-grow-1 card bg-tertiary">
                             <div className="card-body">
-                                <h2 className="text-bold text-nowrap text-white fs-3">Booths Status</h2>
+                                <h3 className="text-bold text-nowrap text-white">Booths Status</h3>
                                 <hr />
                                 <Overflow height="calc(100vh - 376px)">
                                     <ul className="list-group list-group-flush">
@@ -169,7 +169,7 @@ const DashboardPage: React.FC = () => {
                         </div>
                         <div className="flex-grow-1 card bg-tertiary">
                             <div className="card-body">
-                                <h2 className="text-bold text-nowrap text-white fs-3">Activity Log</h2>
+                                <h3 className="text-bold text-nowrap text-white">Activity Log</h3>
                                 <hr />
                                 <Overflow height="calc(100vh - 376px)">
                                     <ul className="list-group list-group-flush">
