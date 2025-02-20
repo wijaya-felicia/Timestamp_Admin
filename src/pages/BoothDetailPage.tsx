@@ -44,30 +44,29 @@ const BoothDetailPage: React.FC = () => {
           }).finally(() => {
             setIsFetchingBooth(false);
           })
-      }
-      else {
-        await _theme.get(booth?.themeId)
-          .then(response => {
-            if(response[0].id === booth?.themeId) setTheme(response[0]);
-          }).catch(error => {
-              handleError(error);
-          })
-        await _frame.get(null, null, null, null, id)
-         .then(response => {
-            setFrames(response);
-          }).catch(error => {
-              handleError(error);
-          })
         _booth.getLogs(null, id)
           .then(response => {
-            console.log(response);
             setLogs(response.reverse());
+          }).catch(error => {
+              handleError(error);
+          })
+        _frame.get(null, null, null, null, id)
+          .then(response => {
+             setFrames(response);
+           }).catch(error => {
+               handleError(error);
+           })
+      }
+      else {
+        _theme.get(booth?.themeId)
+          .then(response => {
+            if(response[0].id === booth?.themeId) setTheme(response[0]);
           }).catch(error => {
               handleError(error);
           }).finally(() => {
             setIsFetching(false);
           })
-        }
+      }
     };
     fetch();
   }, [isFetchingBooth]);
@@ -167,8 +166,8 @@ const BoothDetailPage: React.FC = () => {
                   <div className="d-flex w-100 align-items-stretch">
                     {frames.map(frame => (
                       <div key={frame.id} className="col-2 px-3">
-                        <img src={frame.url} className="w-100 object-fit-contain rounded-3"/>
-                        <h5 className="text-center text-white">{frame.name}</h5>
+                        <img src={frame.url} className="w-100 object-fit-contain" style={{filter: "drop-shadow(0px 0px 5px #222)", height:"200px"}}/>
+                        <h5 className="text-center text-white mt-2">{frame.name}</h5>
                       </div>
                     ))}
                   </div>

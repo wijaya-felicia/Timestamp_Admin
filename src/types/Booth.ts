@@ -14,6 +14,6 @@ export interface CreateBooth {
     description: string;
     clientKey: string;
     serverKey: string;
-    ThemeId: string;
-    FrameIds: string[];
+    themeId: string;
+    frameIds: string[];
 }

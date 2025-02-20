@@ -6,7 +6,7 @@ import _api from "./APIService";
 const UserService = {
     async get(id?: string | null): Promise<User[]> {
         var url = "users?"
-        if (id) url += `id=${id}`;
+        if (id) url += `id=${id}&`;
         return _api.get<ReturnList<User>>(url)
             .then(response => {
                 return response.data.data;

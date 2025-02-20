@@ -43,8 +43,8 @@ export const OverflowX: React.FC<OverflowProps> = ({
             <style>
                 {`
                     ::-webkit-scrollbar {
-                        height: 0 px;
-                        width: 12 px;
+                        height: 12 px;
+                        width: 0 px;
                         position: absolute;
                         bottom: 0;
                         margin: 0 0.5rem;

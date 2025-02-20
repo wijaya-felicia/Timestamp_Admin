@@ -5,7 +5,7 @@ import _api from "./APIService";
 const FilterService = {
     async get(id?: string | null): Promise<Filter[]> {
         var url = "filters?"
-        if (id) url += `id=${id}`;
+        if (id) url += `id=${id}&`;
         return _api.get<ReturnList<Filter>>(url)
             .then(response => {
                 return response.data.data;

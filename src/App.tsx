@@ -12,6 +12,7 @@ import ThemePage from './pages/ThemePage';
 import BoothAddPage from './pages/BoothAddPage';
 import InvalidPage from './pages/InvalidPage';
 import FramePage from './pages/FramePage';
+import BoothEditPage from './pages/BoothEditPage';
 
 function App() {
   return (
@@ -26,7 +27,10 @@ function App() {
             <Route path="booths" element={<Outlet />}>
               <Route path="" element={<BoothPage />} />
               <Route path="add" element={<BoothAddPage />} />
-              <Route path=":id" element={<BoothDetailPage />} />
+              <Route path=":id" element={<Outlet />}>
+                <Route path="" element={<BoothDetailPage />} />
+                <Route path="edit" element={<BoothEditPage />} />
+              </Route>
             </Route>
             <Route path="themes" element={<Outlet />}>
               <Route path="" element={<ThemePage />} />

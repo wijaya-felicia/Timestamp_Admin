@@ -6,7 +6,7 @@ import _api from "./APIService";
 const ThemeService = {
     async get(id?: string | null): Promise<Theme[]> {
         var url = "themes?"
-        if (id) url += `id=${id}`;
+        if (id) url += `id=${id}&`;
         return _api.get<ReturnList<Theme>>(url)
             .then(response => {
                 return response.data.data;

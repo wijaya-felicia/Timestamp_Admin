@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import BackButton from "../components/BackButton";
 import { usePage, usePopup } from "../hooks/Context";
 import { errorHandler } from "../hooks/ErrorHandler";
-import { CreateBooth } from "../types/Booth";
+import { Booth, CreateBooth } from "../types/Booth";
 import { Controller, useForm } from "react-hook-form";
 import { Overflow, OverflowX } from "../components/Overflow";
 import { Theme } from "../types/Theme";
@@ -12,41 +12,48 @@ import _theme from "../services/ThemeService";
 import _frame from "../services/FrameService";
 import LoadingPage from "./LoadingPage";
 import { ConfirmPopup } from "../components/Popup";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import InvalidPage from "./InvalidPage";
 
-const BoothAddPage: React.FC = () => {
+const BoothEditPage: React.FC = () => {
     const { setPage } = usePage();
     setPage("Booths");
     const { showPopup, hidePopup } = usePopup();
     const { handleError } = errorHandler();
     const navigate = useNavigate();
     
+    const { id } = useParams();
+    const [ isInvalid, setIsInvalid ] = useState<boolean>(false);
     const [ isFetching, setIsFetching ] = useState<boolean>(true);
     
+    const [ booth, setBooth ] = useState<Booth | undefined>(undefined);
     const [ themes, setThemes ] = useState<Theme[]>([]);
     const [ frames, setFrames ] = useState<Frame[]>([]);
 
-    const { control, handleSubmit } = useForm<CreateBooth>({
-        defaultValues: {
-            frameIds: []
-        }
-    });
+    const { control, handleSubmit } = useForm<CreateBooth>();
     
     useEffect(() => {
         const fetch = async () => {
-            _theme.get()
-            .then(response => {
-                    setThemes(response);
+            _booth.get(id)
+                .then(response => {
+                    if(response[0] && response[0].id === id) setBooth(response[0]);
+                    else setIsInvalid(true);
                 }).catch(error => {
                     handleError(error);
+                }).finally(() => {
+                    setIsFetching(false);
                 })
             _frame.get()
                 .then(response => {
                     setFrames(response);
                 }).catch(error => {
                     handleError(error);
-                }).finally(() => {
-                    setIsFetching(false);
+                })
+            _theme.get()
+                .then(response => {
+                    setThemes(response);
+                }).catch(error => {
+                    handleError(error);
                 })
         }
         fetch();
@@ -55,16 +62,20 @@ const BoothAddPage: React.FC = () => {
     const onSubmit = (data: CreateBooth) => {
         showPopup(
             <>
-                <ConfirmPopup message="Are you sure you want to create this booth?" onConfirm={() => {
-                    _booth.post(data)
-                        .then(response => {
-                            console.log("Booth created successfully:", response);
-                            hidePopup();
-                            navigate(-1);
-                        })
-                        .catch(error => {
-                            handleError(error);
-                        });
+                <ConfirmPopup message="Are you sure you want to update this booth?" onConfirm={() => {
+                    if (id) {
+                        _booth.put(id, data)
+                            .then(response => {
+                                console.log("Booth update successfully:", response);
+                                hidePopup();
+                                navigate(-1);
+                            })
+                            .catch(error => {
+                                handleError(error);
+                            });
+                    } else {
+                        console.error("Booth ID is undefined.");
+                    }
                     }} onCancel={() => {
                         console.log("Booth creation cancelled.");
                         hidePopup();
@@ -73,11 +84,15 @@ const BoothAddPage: React.FC = () => {
             </>
         )
     }
-
+    
     if(isFetching) {
         return <LoadingPage />;
     }
 
+    if(isInvalid) {
+        return <InvalidPage />;
+    }
+    
     return (
         <>
             <Overflow height="calc(100vh - 90px)">
@@ -85,41 +100,38 @@ const BoothAddPage: React.FC = () => {
                     <div className="d-flex flex-column gap-3">
                         <div className="d-flex align-items-center justify-content-start gap-3">
                             <BackButton />
-                            <h3 className="text-white mb-0 fw-bold">Create Booth</h3>
+                            <h3 className="text-white mb-0 fw-bold">Edit Booth {booth?.name}</h3>
                         </div>
                         <form onSubmit={handleSubmit(onSubmit)} className="d-flex flex-column gap-3">
                             <div className="d-flex gap-3 align-items-stretch">
                                 <div className="d-flex flex-column w-50 gap-3">
                                     <Controller
                                         name="name"
-                                        rules={{required: true}}
                                         control={control}
                                         render={({ field }) => (
                                             <div className="form-group">
                                                 <label className="form-label">Booth Name</label>
-                                                <input {...field} className="form-control" placeholder="Type the booth name here"/>
+                                                <input {...field} className="form-control" placeholder="Type the booth name here" defaultValue={booth?.name}/>
                                             </div>
                                         )}
                                     />
                                     <Controller
                                         name="clientKey"
-                                        rules={{required: true}}
                                         control={control}
                                         render={({ field }) => (
                                             <div className="form-group">
                                                 <label className="form-label">Client Key</label>
-                                                <input {...field} className="form-control" placeholder="Type your client key here"/>
+                                                <input {...field} className="form-control" placeholder="Type your client key here" defaultValue={booth?.clientKey}/>
                                             </div>
                                         )}
                                     />
                                     <Controller
                                         name="serverKey"
-                                        rules={{required: true}}
                                         control={control}
                                         render={({ field }) => (
                                             <div className="form-group">
                                                 <label className="form-label">Server Key</label>
-                                                <input {...field} className="form-control" placeholder="Type your server key here"/>
+                                                <input {...field} className="form-control" placeholder="Type your server key here" defaultValue={booth?.serverKey}/>
                                             </div>
                                         )}
                                     />
@@ -127,26 +139,24 @@ const BoothAddPage: React.FC = () => {
                                 <div className="d-flex flex-column w-50 gap-3">
                                     <Controller
                                         name="description"
-                                        rules={{required: true}}
                                         control={control}
                                         render={({ field }) => (
                                             <div className="d-flex flex-column form-group flex-grow-1">
                                                 <label className="form-label">Description</label>
-                                                <textarea {...field} className="form-control flex-grow-1" placeholder="Type your description here" style={{height: ""}}/>
+                                                <textarea {...field} className="form-control flex-grow-1" placeholder="Type your description here" style={{height: ""}} defaultValue={booth?.description}/>
                                             </div>
                                         )}
                                     />
                                     <Controller
                                         name="themeId"
-                                        rules={{required: true}}
                                         control={control}
+                                        defaultValue={booth?.themeId}
                                         render={({ field }) => (
                                             <div className="form-group">
                                                 <label className="form-label">Theme</label>
                                                 <select {...field} className="form-select">
-                                                    <option value="" disabled selected>Select a theme</option>
                                                     {themes.map(theme => (
-                                                        <option key={theme.id} value={theme.id} >
+                                                        <option key={theme.id} value={theme.id}>
                                                             {theme.name}
                                                         </option>
                                                     ))}
@@ -159,6 +169,7 @@ const BoothAddPage: React.FC = () => {
                             <Controller
                                 name="frameIds"
                                 control={control}
+                                defaultValue={booth?.frameIds}
                                 render={({ field }) => {
                                     const { value, onChange } = field;
 
@@ -210,7 +221,7 @@ const BoothAddPage: React.FC = () => {
                                 }}
                             />
                             <div className="d-flex justify-content-end">
-                                <button type="submit" className="btn btn-primary">Create Booth</button>
+                                <button type="submit" className="btn btn-primary">Update Booth</button>
                             </div>
                         </form>
                     </div>
@@ -220,4 +231,4 @@ const BoothAddPage: React.FC = () => {
     )
 }
 
-export default BoothAddPage;
+export default BoothEditPage;

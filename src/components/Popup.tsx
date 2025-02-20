@@ -17,7 +17,7 @@ export const ConfirmPopup: React.FC<ConfirmPopupProps> = ({
             <p className="text-white">
                 {message}
             </p>
-            <div className="mt-3 d-flex justify-content-center">
+            <div className="mt-3 d-flex justify-content-center gap-3">
                 <button className="btn btn-danger" onClick={onCancel}>
                     No
                 </button>
