@@ -47,6 +47,15 @@ const BoothService = {
                 throw error
             })
     },
+
+    async delete(id: string): Promise<void> {
+        return _api.delete<void>(`booths/${id}`)
+            .then(response => {
+                return response.data;
+            }).catch(error => {
+                throw error
+            })
+    }
 }
 
 export default BoothService;

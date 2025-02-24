@@ -1,5 +1,5 @@
-import { ReturnList } from "../types/Response";
-import { Theme } from "../types/Theme";
+import { ReturnData, ReturnList } from "../types/Response";
+import { CreateTheme, Theme } from "../types/Theme";
 import _api from "./APIService";
 
 
@@ -8,6 +8,15 @@ const ThemeService = {
         var url = "themes?"
         if (id) url += `id=${id}&`;
         return _api.get<ReturnList<Theme>>(url)
+            .then(response => {
+                return response.data.data;
+            }).catch(error => {
+                throw error
+            })
+    },
+
+    async post(theme: CreateTheme): Promise<Theme> {
+        return _api.post<ReturnData<Theme>>("themes", theme)
             .then(response => {
                 return response.data.data;
             }).catch(error => {

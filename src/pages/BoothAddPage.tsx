@@ -56,17 +56,15 @@ const BoothAddPage: React.FC = () => {
         showPopup(
             <>
                 <ConfirmPopup message="Are you sure you want to create this booth?" onConfirm={() => {
-                    _booth.post(data)
-                        .then(response => {
-                            console.log("Booth created successfully:", response);
-                            hidePopup();
-                            navigate(-1);
-                        })
-                        .catch(error => {
-                            handleError(error);
-                        });
+                        _booth.post(data)
+                            .then(() => {
+                                hidePopup();
+                                navigate(-1);
+                            })
+                            .catch(error => {
+                                handleError(error);
+                            });
                     }} onCancel={() => {
-                        console.log("Booth creation cancelled.");
                         hidePopup();
                     }}
                 />
@@ -132,7 +130,7 @@ const BoothAddPage: React.FC = () => {
                                         render={({ field }) => (
                                             <div className="d-flex flex-column form-group flex-grow-1">
                                                 <label className="form-label">Description</label>
-                                                <textarea {...field} className="form-control flex-grow-1" placeholder="Type your description here" style={{height: ""}}/>
+                                                <textarea {...field} className="form-control flex-grow-1" placeholder="Type the description here" style={{height: ""}}/>
                                             </div>
                                         )}
                                     />

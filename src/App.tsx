@@ -13,6 +13,9 @@ import BoothAddPage from './pages/BoothAddPage';
 import InvalidPage from './pages/InvalidPage';
 import FramePage from './pages/FramePage';
 import BoothEditPage from './pages/BoothEditPage';
+import ThemeDetailPage from './pages/ThemeDetailPage';
+import FrameDetailPage from './pages/FrameDetailPage';
+import ThemeAddPage from './pages/ThemeAddPage';
 
 function App() {
   return (
@@ -34,9 +37,18 @@ function App() {
             </Route>
             <Route path="themes" element={<Outlet />}>
               <Route path="" element={<ThemePage />} />
+              <Route path="add" element={<ThemeAddPage />} />
+              <Route path=":id" element={<Outlet />}>
+                <Route path="" element={<ThemeDetailPage />} />
+                {/* <Route path="edit" element={<ThemeEditPage />} /> */}
+              </Route>
             </Route>
             <Route path="frames" element={<Outlet />}>
               <Route path="" element={<FramePage />} />
+              <Route path=":id" element={<Outlet />}>
+                <Route path="" element={<FrameDetailPage />} />
+                {/* <Route path="edit" element={<FrameEditPage />} /> */}
+              </Route>
             </Route>
             <Route path="filters" element={<Outlet />}>
               {/* <Route path="" element={<FilterPage />} /> */}

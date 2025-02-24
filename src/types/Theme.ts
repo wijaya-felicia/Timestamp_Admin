@@ -4,3 +4,9 @@ export interface Theme {
     config: string;
     url: string;
 }
+
+export interface CreateTheme {
+    name: string;
+    config: string;
+    background: File;
+}

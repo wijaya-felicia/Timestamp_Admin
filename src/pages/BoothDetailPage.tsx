@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Booth } from "../types/Booth";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import _booth from "../services/BoothService";
 import _theme from "../services/ThemeService";
 import _frame from "../services/FrameService";
-import { usePage } from "../hooks/Context";
+import { usePage, usePopup } from "../hooks/Context";
 import LoadingPage from "./LoadingPage";
 import { Theme } from "../types/Theme";
 import { errorHandler } from "../hooks/ErrorHandler";
@@ -15,11 +15,14 @@ import { BoothLog } from "../types/Log";
 import { unixToDate } from "../utils/TimeConverter";
 import EditButton from "../components/EditButton";
 import { Frame } from "../types/Frame";
+import { ConfirmPopup } from "../components/Popup";
 
 const BoothDetailPage: React.FC = () => {
   const { setPage } = usePage();
   setPage("Booths");
+  const { showPopup, hidePopup } = usePopup();
   const { handleError } = errorHandler();
+  const navigate = useNavigate();
 
   const { id } = useParams();
   const [ isInvalid, setIsInvalid] = useState<boolean>(false);
@@ -71,6 +74,28 @@ const BoothDetailPage: React.FC = () => {
     fetch();
   }, [isFetchingBooth]);
 
+  const destroy = () => {
+    showPopup(
+      <>
+        <ConfirmPopup message="Are you sure you want to delete this booth?" onConfirm={async () => {
+            if (id) {
+              await _booth.delete(id)
+                .then(() => {
+                  hidePopup();
+                  navigate("/booths", { replace: true });
+                })
+                .catch(error => {
+                  handleError(error);
+                });
+            } else hidePopup()
+          }} onCancel={() => {
+            hidePopup();
+          }}
+        />
+      </>
+    )
+  }
+
   if(isFetching) {
     return <LoadingPage />;
   }
@@ -84,9 +109,12 @@ const BoothDetailPage: React.FC = () => {
       <Overflow height="calc(100vh - 90px)">
         <div className="p-3">
           <div className="d-flex flex-column gap-3">
-            <div className="d-flex align-items-center justify-content-start gap-3">
-              <BackButton />
-              <h3 className="text-white mb-0 fw-bold">{booth?.name}</h3>
+            <div className="d-flex align-items-center justify-content-between">
+              <div className="d-flex align-items-center justify-content-start gap-3">
+                <BackButton />
+                <h3 className="text-white mb-0 fw-bold">{booth?.name}</h3>
+              </div>
+              <a className="btn btn-danger" onClick={destroy}>Delete Booth</a>
             </div>
             <div className="d-flex align-items-center justify-content-start flex-wrap gap-3">
               <span
