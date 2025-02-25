@@ -30,7 +30,6 @@ const ThemeAddPage: React.FC = () => {
                         data.config = JSON.stringify(config);
                         _theme.post(data)
                             .then(response => {
-                                console.log(response);
                                 uploadImage(response.url, data.background);
                                 hidePopup();
                                 navigate(-1);
@@ -91,8 +90,8 @@ const ThemeAddPage: React.FC = () => {
                                         <div className="d-flex gap-3">
                                             {
                                                 selectedImage &&
-                                                    <div className="d-flex align-items-center justify-content-center" style={{ width: "40%" }}>
-                                                        <img src={selectedImage} alt="background" className="img-fluid" />
+                                                    <div className="d-flex align-items-center justify-content-center" style={{ width: "40%", height: "300px" }}>
+                                                        <img src={selectedImage} alt="background" className="object-fit-contain h-100 w-100" />
                                                     </div>
                                             }
                                             <input

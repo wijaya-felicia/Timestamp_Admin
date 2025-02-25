@@ -15,3 +15,13 @@ export interface Layout {
     width: number;
     height: number;
 }
+
+export interface CreateFrame {
+    name: string;
+    themeId: string;
+    count: number;
+    price: number;
+    split: boolean;
+    layouts: Layout[];
+    image: File;
+}

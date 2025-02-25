@@ -16,6 +16,7 @@ import BoothEditPage from './pages/BoothEditPage';
 import ThemeDetailPage from './pages/ThemeDetailPage';
 import FrameDetailPage from './pages/FrameDetailPage';
 import ThemeAddPage from './pages/ThemeAddPage';
+import FrameAddPage from './pages/FrameAddPage';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
             </Route>
             <Route path="frames" element={<Outlet />}>
               <Route path="" element={<FramePage />} />
+              <Route path="add" element={<FrameAddPage />} />
               <Route path=":id" element={<Outlet />}>
                 <Route path="" element={<FrameDetailPage />} />
                 {/* <Route path="edit" element={<FrameEditPage />} /> */}

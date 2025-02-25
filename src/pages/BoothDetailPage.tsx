@@ -160,27 +160,29 @@ const BoothDetailPage: React.FC = () => {
                       <h3 className="text-bold text-nowrap text-white">Booth Logs</h3>
                       <hr />
                       <Overflow height="calc(100vh - 444px)">
-                          <ul className="list-group list-group-flush">
-                              {logs.map(log => (
-                                  <li key={log.id} className="list-group-item bg-tertiary d-flex justify-content-between align-items-center gap-3">
-                                      <div className="d-flex align-items-center gap-4">
-                                        <span
-                                            className={"d-flex align-items-center justify-content-center py-1 rounded-pill text-white ".concat(
-                                                log?.level == 0
-                                                ? "bg-success"
-                                                : log?.level == 1
-                                                ? "bg-warning"
-                                                : "bg-danger"
-                                            )} style={{width: "80px"}}
-                                            >
-                                            {statusArray[log.level]}
-                                        </span>
-                                        <span className="fs-6">{log.message}</span>
-                                      </div>
-                                      <span className="fs-6 text-muted text-nowrap">{unixToDate(log.timestamp)}</span>
-                                  </li>
-                              ))}
-                          </ul>
+                        <table className="table p-0">
+                          <tbody>
+                            {logs.map(log => (
+                            <tr key={log.id}>
+                              <td className="bg-tertiary">
+                                <span
+                                  className={"d-flex align-items-center justify-content-center py-1 rounded-pill text-white ".concat(
+                                  log?.level == 0
+                                    ? "bg-success"
+                                    : log?.level == 1
+                                    ? "bg-warning"
+                                    : "bg-danger"
+                                  )} style={{width: "80px"}}
+                                >
+                                  {statusArray[log.level]}
+                                </span>
+                              </td>
+                              <td className="text-white bg-tertiary">{log.message}</td>
+                              <td className="text-muted text-nowrap bg-tertiary">{unixToDate(log.timestamp)}</td>
+                            </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </Overflow>
                   </div>
                 </div>
