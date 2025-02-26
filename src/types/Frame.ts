@@ -10,10 +10,10 @@ export interface Frame {
 }
 
 export interface Layout {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
+    X: number;
+    Y: number;
+    Width: number;
+    Height: number;
 }
 
 export interface CreateFrame {

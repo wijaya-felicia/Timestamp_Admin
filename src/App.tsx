@@ -17,6 +17,7 @@ import ThemeDetailPage from './pages/ThemeDetailPage';
 import FrameDetailPage from './pages/FrameDetailPage';
 import ThemeAddPage from './pages/ThemeAddPage';
 import FrameAddPage from './pages/FrameAddPage';
+import FrameEditPage from './pages/FrameEditPage';
 
 function App() {
   return (
@@ -49,7 +50,7 @@ function App() {
               <Route path="add" element={<FrameAddPage />} />
               <Route path=":id" element={<Outlet />}>
                 <Route path="" element={<FrameDetailPage />} />
-                {/* <Route path="edit" element={<FrameEditPage />} /> */}
+                <Route path="edit" element={<FrameEditPage />} />
               </Route>
             </Route>
             <Route path="filters" element={<Outlet />}>

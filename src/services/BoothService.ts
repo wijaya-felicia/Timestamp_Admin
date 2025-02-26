@@ -1,6 +1,6 @@
 import { Booth, CreateBooth } from "../types/Booth";
 import { BoothLog } from "../types/Log";
-import { ReturnList } from "../types/Response";
+import { ReturnData, ReturnList } from "../types/Response";
 import _api from "./APIService";
 
 const BoothService = {
@@ -31,27 +31,27 @@ const BoothService = {
     },
 
     async post(booth: CreateBooth): Promise<Booth> {
-        return _api.post<Booth>("booths", booth)
+        return _api.post<ReturnData<Booth>>("booths", booth)
             .then(response => {
-                return response.data;
+                return response.data.data;
             }).catch(error => {
                 throw error
             })
     },
 
     async put(id: string, booth: CreateBooth): Promise<Booth> {
-        return _api.put<Booth>(`booths/${id}`, booth)
+        return _api.put<ReturnData<Booth>>(`booths/${id}`, booth)
             .then(response => {
-                return response.data;
+                return response.data.data;
             }).catch(error => {
                 throw error
             })
     },
 
-    async delete(id: string): Promise<void> {
-        return _api.delete<void>(`booths/${id}`)
+    async delete(id: string): Promise<Booth> {
+        return _api.delete<ReturnData<Booth>>(`booths/${id}`)
             .then(response => {
-                return response.data;
+                return response.data.data;
             }).catch(error => {
                 throw error
             })

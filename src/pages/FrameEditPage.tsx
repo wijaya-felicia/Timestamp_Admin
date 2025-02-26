@@ -5,29 +5,45 @@ import { errorHandler } from "../hooks/ErrorHandler";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { Overflow } from "../components/Overflow";
 import { Theme } from "../types/Theme";
-import { CreateFrame } from "../types/Frame";
+import { CreateFrame, Frame } from "../types/Frame";
 import _theme from "../services/ThemeService";
 import _frame from "../services/FrameService";
 import LoadingPage from "./LoadingPage";
 import { ConfirmPopup } from "../components/Popup";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { uploadImage } from "../utils/ImageUploader";
+import InvalidPage from "./InvalidPage";
 
-const FrameAddPage: React.FC = () => {
+const FrameEditPage: React.FC = () => {
     const { setPage } = usePage();
     setPage("Frames");
     const { showPopup, hidePopup } = usePopup();
     const { handleError } = errorHandler();
     const navigate = useNavigate();
     
+    const { id } = useParams();
+    const [ isInvalid, setIsInvalid ] = useState<boolean>(false);
     const [ isFetching, setIsFetching ] = useState<boolean>(true);
     
+    const [ frame, setFrame ] = useState<Frame | undefined>(undefined);
     const [ themes, setThemes ] = useState<Theme[]>([]);
 
     const { control, handleSubmit } = useForm<CreateFrame>();
     
     useEffect(() => {
         const fetch = async () => {
+            _frame.get(id)
+                .then(response => {
+                    if(response[0] && response[0].id === id){
+                        setFrame(response[0]);
+                        setSelectedImage(response[0].url);
+                    }
+                    else setIsInvalid(true);
+                }).catch(error => {
+                    handleError(error);
+                }).finally(() => {
+                    setIsFetching(false);
+                })
             _theme.get()
                 .then(response => {
                     setThemes(response);
@@ -45,15 +61,16 @@ const FrameAddPage: React.FC = () => {
             <>
                 <ConfirmPopup message="Are you sure you want to create this frame?" onConfirm={() => {
                     data.count = data.layouts.length;
-                    _frame.post(data)
-                        .then(response => {
-                            uploadImage(response.url, data.image);
-                            hidePopup();
-                            navigate(-1);
-                        }).catch(error => {
-                            handleError(error);
-                        })
-                    hidePopup();
+                    if (id) {
+                        _frame.put(id, data)
+                            .then(response => {
+                                uploadImage(response.url, data.image);
+                                hidePopup();
+                                navigate(-1);
+                            }).catch(error => {
+                                handleError(error);
+                            });
+                    } else {}
                     }} onCancel={() => {
                         hidePopup();
                     }}
@@ -63,6 +80,10 @@ const FrameAddPage: React.FC = () => {
     }
 
     const [ selectedImage, setSelectedImage ] = useState<string>();
+
+    if(isInvalid) {
+        return <InvalidPage />;
+    }
 
     if(isFetching) {
         return <LoadingPage />;
@@ -75,15 +96,15 @@ const FrameAddPage: React.FC = () => {
                     <div className="d-flex flex-column gap-3">
                         <div className="d-flex align-items-center justify-content-start gap-3">
                             <BackButton />
-                            <h3 className="text-white mb-0 fw-bold">Create Frame</h3>
+                            <h3 className="text-white mb-0 fw-bold">Edit Frame</h3>
                         </div>
                         <form onSubmit={handleSubmit(onSubmit)} className="d-flex flex-column gap-3">
                             <div className="d-flex gap-3 align-items-stretch">
                                 <div className="d-flex flex-column w-50 gap-3">
                                     <Controller
                                         name="name"
-                                        rules={{required: true}}
                                         control={control}
+                                        defaultValue={frame?.name}
                                         render={({ field }) => (
                                             <div className="form-group">
                                                 <label className="form-label">Frame Name</label>
@@ -93,8 +114,8 @@ const FrameAddPage: React.FC = () => {
                                     />
                                     <Controller
                                         name="price"
-                                        rules={{required: true, min: 0}}
                                         control={control}
+                                        defaultValue={frame?.price}
                                         render={({ field }) => (
                                             <div className="form-group">
                                                 <label className="form-label">Frame Price</label>
@@ -106,8 +127,8 @@ const FrameAddPage: React.FC = () => {
                                 <div className="d-flex flex-column w-50 gap-3">
                                     <Controller
                                         name="themeId"
-                                        rules={{required: true}}
                                         control={control}
+                                        defaultValue={frame?.themeId}
                                         render={({ field }) => (
                                             <div className="form-group">
                                                 <label className="form-label">Theme</label>
@@ -124,7 +145,7 @@ const FrameAddPage: React.FC = () => {
                                     />
                                     <Controller
                                         name="split"
-                                        defaultValue={false}
+                                        defaultValue={frame?.split}
                                         control={control}
                                         render={({ field }) => {
                                             return (
@@ -166,7 +187,6 @@ const FrameAddPage: React.FC = () => {
                             </div>
                             <Controller
                                 name="image"
-                                rules={{ required: true }}
                                 control={control}
                                 render={({ field: { onChange, ref } }) => (
                                     <div className="form-group">
@@ -197,7 +217,7 @@ const FrameAddPage: React.FC = () => {
                                 <Controller
                                     name="layouts"
                                     control={control}
-                                    defaultValue={[]}
+                                    defaultValue={frame?.layouts}
                                     render={() => {
                                         const { fields, append, remove } = useFieldArray({
                                             control,
@@ -286,7 +306,7 @@ const FrameAddPage: React.FC = () => {
                                 />
                             </div>
                             <div className="d-flex justify-content-end">
-                                <button type="submit" className="btn btn-primary">Create Frame</button>
+                                <button type="submit" className="btn btn-primary">Update Frame</button>
                             </div>
                         </form>
                     </div>
@@ -296,4 +316,4 @@ const FrameAddPage: React.FC = () => {
     )
 }
 
-export default FrameAddPage;
+export default FrameEditPage;

@@ -10,6 +10,7 @@ import LoadingPage from "./LoadingPage";
 import { Theme } from "../types/Theme";
 import { Overflow } from "../components/Overflow";
 import BackButton from "../components/BackButton";
+import EditButton from "../components/EditButton";
 
 const FrameDetailPage: React.FC = () => {
     const { setPage } = usePage();
@@ -73,6 +74,7 @@ const FrameDetailPage: React.FC = () => {
                         </div>
                     </div>
                 </div>
+                <EditButton />
             </Overflow>
         </>
     )

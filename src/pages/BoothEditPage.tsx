@@ -65,19 +65,15 @@ const BoothEditPage: React.FC = () => {
                 <ConfirmPopup message="Are you sure you want to update this booth?" onConfirm={() => {
                     if (id) {
                         _booth.put(id, data)
-                            .then(response => {
-                                console.log("Booth update successfully:", response);
+                            .then(() => {
                                 hidePopup();
                                 navigate(-1);
                             })
                             .catch(error => {
                                 handleError(error);
                             });
-                    } else {
-                        console.error("Booth ID is undefined.");
-                    }
+                    } else {}
                     }} onCancel={() => {
-                        console.log("Booth creation cancelled.");
                         hidePopup();
                     }}
                 />

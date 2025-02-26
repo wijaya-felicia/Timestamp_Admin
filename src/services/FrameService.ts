@@ -25,7 +25,16 @@ const FrameService = {
             }).catch(error => {
                 throw error
             })
-    }
+    },
+
+    async put(id: string, frame: CreateFrame): Promise<Frame> {
+        return _api.put<ReturnData<Frame>>(`frames/${id}`, frame)
+            .then(response => {
+                return response.data.data;
+            }).catch(error => {
+                throw error
+            })
+    },
 }
 
 export default FrameService;
