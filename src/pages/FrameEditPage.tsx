@@ -59,7 +59,7 @@ const FrameEditPage: React.FC = () => {
     const onSubmit = (data: CreateFrame) => {
         showPopup(
             <>
-                <ConfirmPopup message="Are you sure you want to create this frame?" onConfirm={() => {
+                <ConfirmPopup message="Are you sure you want to update this frame?" onConfirm={() => {
                     data.count = data.layouts.length;
                     if (id) {
                         _frame.put(id, data)

@@ -22,7 +22,16 @@ const ThemeService = {
             }).catch(error => {
                 throw error
             })
-    }
+    },
+
+    async put(id: string, theme: CreateTheme): Promise<Theme> {
+        return _api.put<ReturnData<Theme>>(`themes/${id}`, theme)
+            .then(response => {
+                return response.data.data;
+            }).catch(error => {
+                throw error
+            })
+    },
 }
 
 export default ThemeService;
