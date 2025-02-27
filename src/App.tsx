@@ -19,6 +19,9 @@ import ThemeAddPage from './pages/ThemeAddPage';
 import FrameAddPage from './pages/FrameAddPage';
 import FrameEditPage from './pages/FrameEditPage';
 import ThemeEditPage from './pages/ThemeEditPage';
+import EditProfilePage from './pages/EditProfilePage';
+import AdminPage from './pages/AdminPage';
+import AdminAddPage from './pages/AdminAddPage';
 
 function App() {
   return (
@@ -56,6 +59,13 @@ function App() {
             </Route>
             <Route path="filters" element={<Outlet />}>
               {/* <Route path="" element={<FilterPage />} /> */}
+            </Route>
+            <Route path="profile" element={<Outlet />}>
+              <Route path="" element={<EditProfilePage />} />
+            </Route>
+            <Route path="admins" element={<Outlet />}>
+              <Route path="" element={<AdminPage />} />
+              <Route path="add" element={<AdminAddPage />} />
             </Route>
             <Route path="*" element={<InvalidPage />} />
           </Route>

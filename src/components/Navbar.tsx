@@ -33,8 +33,8 @@ const Navbar: React.FC = () => {
                                     Hello, {name}
                                 </a>
                                 <ul className="dropdown-menu dropdown-menu-end bg-secondary shadow-lg">
-                                    <li className="mb-2"><a href="#" className="dropdown-item" id="dropdown-item">Edit Profile</a></li>
-                                    <li className="mb-2"><a href="#" className="dropdown-item" id="dropdown-item">Manage Admin</a></li>
+                                    <li className="mb-2"><a href="/profile" className="dropdown-item" id="dropdown-item">Edit Account</a></li>
+                                    <li className="mb-2"><a href="/admins" className="dropdown-item" id="dropdown-item">Manage Admin</a></li>
                                     <li className="mb-2"><a href="/login" onClick={_auth.logout} className="dropdown-item" id="dropdown-item">logout</a></li>
                                 </ul>
                             </li>

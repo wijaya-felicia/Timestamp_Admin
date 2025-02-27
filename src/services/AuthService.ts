@@ -13,6 +13,13 @@ const AuthService = {
         })
     },
 
+    async changePassword(password: string) {
+        await _api.put("users", { password })
+            .catch(error => {
+                throw error
+            })
+    },
+
     logout() {
         sessionStorage.clear();
     },

@@ -1,6 +1,6 @@
 import { Log } from "../types/Log";
-import { ReturnList } from "../types/Response";
-import { User } from "../types/User";
+import { ReturnData, ReturnList } from "../types/Response";
+import { CreateUser, User } from "../types/User";
 import _api from "./APIService";
 
 const UserService = {
@@ -8,6 +8,24 @@ const UserService = {
         var url = "users?"
         if (id) url += `id=${id}&`;
         return _api.get<ReturnList<User>>(url)
+            .then(response => {
+                return response.data.data;
+            }).catch(error => {
+                throw error
+            })
+    },
+
+    async post(user: CreateUser): Promise<User> {
+        return _api.post<ReturnData<User>>("users", user)
+            .then(response => {
+                return response.data.data;
+            }).catch(error => {
+                throw error
+            })
+    },
+
+    async delete(id: string): Promise<User> {
+        return _api.delete<ReturnData<User>>(`users/${id}`)
             .then(response => {
                 return response.data.data;
             }).catch(error => {
