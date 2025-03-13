@@ -50,7 +50,7 @@ const ThemePage: React.FC = () => {
                                             <h4 className="card-title">{theme.name}</h4>
                                             <div className="d-flex justify-content-end">
                                                 <a href={"/themes/".concat(theme.id)} className="btn btn-secondary">
-                                                    Details
+                                                    Edit
                                                 </a>
                                             </div>
                                         </div>

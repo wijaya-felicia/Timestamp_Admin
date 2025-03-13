@@ -13,8 +13,6 @@ import BoothAddPage from './pages/BoothAddPage';
 import InvalidPage from './pages/InvalidPage';
 import FramePage from './pages/FramePage';
 import BoothEditPage from './pages/BoothEditPage';
-import ThemeDetailPage from './pages/ThemeDetailPage';
-import FrameDetailPage from './pages/FrameDetailPage';
 import ThemeAddPage from './pages/ThemeAddPage';
 import FrameAddPage from './pages/FrameAddPage';
 import FrameEditPage from './pages/FrameEditPage';
@@ -22,6 +20,9 @@ import ThemeEditPage from './pages/ThemeEditPage';
 import EditProfilePage from './pages/EditProfilePage';
 import AdminPage from './pages/AdminPage';
 import AdminAddPage from './pages/AdminAddPage';
+import FilterPage from './pages/FilterPage';
+import FilterAddPage from './pages/FilterAddPage';
+import FilterEditPage from './pages/FilterEditPage';
 
 function App() {
   return (
@@ -45,20 +46,22 @@ function App() {
               <Route path="" element={<ThemePage />} />
               <Route path="add" element={<ThemeAddPage />} />
               <Route path=":id" element={<Outlet />}>
-                <Route path="" element={<ThemeDetailPage />} />
-                <Route path="edit" element={<ThemeEditPage />} />
+                <Route path="" element={<ThemeEditPage />} />
               </Route>
             </Route>
             <Route path="frames" element={<Outlet />}>
               <Route path="" element={<FramePage />} />
               <Route path="add" element={<FrameAddPage />} />
               <Route path=":id" element={<Outlet />}>
-                <Route path="" element={<FrameDetailPage />} />
-                <Route path="edit" element={<FrameEditPage />} />
+                <Route path="" element={<FrameEditPage />} />
               </Route>
             </Route>
             <Route path="filters" element={<Outlet />}>
-              {/* <Route path="" element={<FilterPage />} /> */}
+              <Route path="" element={<FilterPage />} />
+              <Route path="add" element={<FilterAddPage />} />
+              <Route path=":id" element={<Outlet />}>
+                <Route path="" element={<FilterEditPage />} />
+              </Route>
             </Route>
             <Route path="profile" element={<Outlet />}>
               <Route path="" element={<EditProfilePage />} />

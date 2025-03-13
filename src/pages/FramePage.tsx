@@ -50,7 +50,7 @@ const FramePage: React.FC = () => {
                                             <h4 className="card-title">{frame.name}</h4>
                                             <div className="d-flex justify-content-end">
                                                 <a href={"/frames/".concat(frame.id)} className="btn btn-secondary">
-                                                    Details
+                                                    Edit
                                                 </a>
                                             </div>
                                         </div>

@@ -49,8 +49,6 @@ const FrameEditPage: React.FC = () => {
                     setThemes(response);
                 }).catch(error => {
                     handleError(error);
-                }).finally(() => {
-                    setIsFetching(false);
                 })
         }
         fetch();
