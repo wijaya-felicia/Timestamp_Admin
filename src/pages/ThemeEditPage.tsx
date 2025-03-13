@@ -74,6 +74,28 @@ const ThemeEditPage: React.FC = () => {
 
     const [ selectedImage, setSelectedImage ] = useState<string>();
 
+    const destroy = () => {
+        showPopup(
+        <>
+            <ConfirmPopup message="Are you sure you want to delete this theme?" onConfirm={async () => {
+                if (id) {
+                await _theme.delete(id)
+                    .then(() => {
+                    hidePopup();
+                    navigate("/themes", { replace: true });
+                    })
+                    .catch(error => {
+                    handleError(error);
+                    });
+                } else hidePopup()
+            }} onCancel={() => {
+                hidePopup();
+            }}
+            />
+        </>
+        )
+    }
+
     if(isInvalid) {
         return <InvalidPage />;
     }
@@ -87,9 +109,12 @@ const ThemeEditPage: React.FC = () => {
             <Overflow height="calc(100vh - 90px)">
                 <div className="p-3">
                     <div className="d-flex flex-column gap-3">
-                        <div className="d-flex align-items-center justify-content-start gap-3">
-                            <BackButton />
-                            <h3 className="text-white mb-0 fw-bold">Edit Theme</h3>
+                        <div className="d-flex align-items-center justify-content-between">
+                            <div className="d-flex align-items-center justify-content-start gap-3">
+                                <BackButton />
+                                <h3 className="text-white mb-0 fw-bold">Edit Theme</h3>
+                            </div>
+                            <a className="btn btn-danger" onClick={destroy}>Delete Theme</a>
                         </div>
                         <form onSubmit={handleSubmit(onSubmit)} className="d-flex flex-column gap-3">
                             <div className="d-flex gap-3 align-items-stretch">

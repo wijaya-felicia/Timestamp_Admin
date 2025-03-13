@@ -32,6 +32,15 @@ const ThemeService = {
                 throw error
             })
     },
+
+    async delete(id: string): Promise<Theme> {
+        return _api.delete<ReturnData<Theme>>(`themes/${id}`)
+            .then(response => {
+                return response.data.data;
+            }).catch(error => {
+                throw error
+            })
+    }
 }
 
 export default ThemeService;

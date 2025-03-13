@@ -79,6 +79,28 @@ const FrameEditPage: React.FC = () => {
 
     const [ selectedImage, setSelectedImage ] = useState<string>();
 
+    const destroy = () => {
+        showPopup(
+        <>
+            <ConfirmPopup message="Are you sure you want to delete this frame?" onConfirm={async () => {
+                if (id) {
+                await _frame.delete(id)
+                    .then(() => {
+                    hidePopup();
+                    navigate("/frames", { replace: true });
+                    })
+                    .catch(error => {
+                    handleError(error);
+                    });
+                } else hidePopup()
+            }} onCancel={() => {
+                hidePopup();
+            }}
+            />
+        </>
+        )
+    }
+
     if(isInvalid) {
         return <InvalidPage />;
     }
@@ -92,9 +114,12 @@ const FrameEditPage: React.FC = () => {
             <Overflow height="calc(100vh - 90px)">
                 <div className="p-3">
                     <div className="d-flex flex-column gap-3">
-                        <div className="d-flex align-items-center justify-content-start gap-3">
-                            <BackButton />
-                            <h3 className="text-white mb-0 fw-bold">Edit Frame</h3>
+                        <div className="d-flex align-items-center justify-content-between">
+                            <div className="d-flex align-items-center justify-content-start gap-3">
+                                <BackButton />
+                                <h3 className="text-white mb-0 fw-bold">Edit Frame</h3>
+                            </div>
+                            <a className="btn btn-danger" onClick={destroy}>Delete Frame</a>
                         </div>
                         <form onSubmit={handleSubmit(onSubmit)} className="d-flex flex-column gap-3">
                             <div className="d-flex gap-3 align-items-stretch">

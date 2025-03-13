@@ -42,9 +42,6 @@ const FilterPage: React.FC = () => {
                             <a href={"/filters/".concat(filter.id)} className="card bg-tertiary text-white h-100 w-100 text-decoration-none">
                                 <div className="card-body">
                                     <div className="d-flex align-items-center mb-3">
-                                        <div className="bg-primary rounded-circle d-flex justify-content-center align-items-center me-3" style={{width: "40px", height: "40px"}}>
-                                            <i className="bi bi-camera-filters fs-5"></i>
-                                        </div>
                                         <h4 className="card-title m-0">{filter.name}</h4>
                                     </div>
                                     <div className="d-flex justify-content-end mt-auto">

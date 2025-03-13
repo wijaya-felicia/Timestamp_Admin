@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import { User } from "../types/User";
 import _auth from "../services/AuthService";
 import { usePage, usePopup } from "../hooks/Context";
 import { errorHandler } from "../hooks/ErrorHandler";

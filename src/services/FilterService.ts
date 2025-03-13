@@ -32,6 +32,14 @@ const FilterService = {
             })
     },
 
+    async delete(id: string): Promise<Filter> {
+        return _api.delete<ReturnData<Filter>>(`filters/${id}`)
+            .then(response => {
+                return response.data.data;
+            }).catch(error => {
+                throw error
+            })
+    }
 }
 
 export default FilterService;
