@@ -2,8 +2,6 @@ import { createContext, useEffect, useRef } from "react";
 import CanvasFraming from "../shared/CanvasFraming";
 import { CreateFilter, Preset } from "../types/Filter";
 
-const URL = "https://picsum.photos/600/300";
-
 interface FilterPreviewProps {
   filters: CreateFilter;
 }
@@ -28,9 +26,7 @@ export const FilterPreview: React.FC<FilterPreviewProps> = ({ filters }) => {
     (async () => {
       if (!canvas.current) {
         canvas.current = new CanvasFraming(
-          container.current as HTMLDivElement,
           canvasRef.current as HTMLCanvasElement,
-          URL,
         );
         await canvas.current?.create();
 
@@ -40,10 +36,16 @@ export const FilterPreview: React.FC<FilterPreviewProps> = ({ filters }) => {
     })();
   }, [filters]);
 
+  const refreshSample = () => {
+    if (!canvas.current) return;
+    canvas.current.refreshImage(filters.preset);
+  };
+
   return (
     <>
       <figure
-        className="figure d-flex flex-column justify-content-center"
+        className="figure d-flex flex-column justify-content-center relative sticky-top"
+        style={{ top: "4rem" }}
         ref={container}
       >
         <canvas
@@ -53,12 +55,20 @@ export const FilterPreview: React.FC<FilterPreviewProps> = ({ filters }) => {
         <figcaption className="figure-caption">
           <a
             href="https://picsum.photos/"
-            className="link-primary"
+            className="link-light"
             target="_blank"
           >
             https://picsum.photos/
           </a>
-          . Randomly generated every refresh
+          . Randomly generated every page load.
+          <br />
+          <br />
+          <button
+            className="btn btn-quaternary"
+            onClick={() => refreshSample()}
+          >
+            Refresh sample
+          </button>
         </figcaption>
       </figure>
     </>
