@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@material/material-color-utilities": "^0.3.0",
+    "@types/fabric": "^5.3.10",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
+    "fabric": "^6.6.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.2",

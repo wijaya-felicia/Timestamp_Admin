@@ -1,6 +1,8 @@
+import { TMatColorMatrix } from "fabric";
+
 type Blend = {
   color: string; // hexadecimal;
-  mode:
+  mode?:
     | "multiply"
     | "add"
     | "difference"
@@ -11,13 +13,17 @@ type Blend = {
     | "overlay"
     | "exclusion"
     | "tint"; // "multiply" | "add" | "difference" | "screen" | "subtract" | "darken" | "lighten" | "overlay" | "exclusion" | "tint"
-  alpha: number;
+  alpha?: number;
 };
 
-export interface Preset {
+type ColorMatrix = {
+  matrix: TMatColorMatrix; // array of 20 floats; Numbers in positions 4, 9, 14, 19 loose meaning outside the -1, 1 range. 0.0039215686 is the part of 1 that get translated to 1 in 2d
+};
+
+export interface ImageFilter {
   /**
    * grayscale filter
-   * @type {'average' | 'lightness' | 'luminosity'}
+   * @type {boolean}
    */
   grayscale?: {
     mode: string; // 'average' | 'lightness' | 'luminosity';
@@ -73,6 +79,11 @@ export interface Preset {
    */
   blend?: Blend[];
 
+  /** Operates image pixels with this kernel
+   * @type {ColorMatrix}
+   */
+  colorMatrix?: ColorMatrix;
+
   /**
    * apply linear blur
    * @param {number} blur percentange ranging from 0 - 1, in percentage of image dimension
@@ -91,11 +102,23 @@ export interface Preset {
    */
   contrast?: number;
 
+  /**
+   *
+   * 0.01 - 2.2
+   */
   gamma?: {
-    // gamma: [number, number, number];0.01 - 2.2
+    gamma: [number, number, number];
     r: Uint8Array;
     g: Uint8Array;
     b: Uint8Array;
+  };
+
+  /**
+   * hue rotation filter
+   */
+  hueRotation?: {
+    rotation: number; // -1 to 1
+    matrix: TMatColorMatrix; // array of 20 floats
   };
 
   /** noise filter
@@ -125,14 +148,7 @@ export interface Preset {
   vibrance?: number;
 }
 
-export interface Filter {
-  id: string;
+export interface FilterPreset {
   name: string;
-  preset: Preset;
+  preset: ImageFilter;
 }
-
-export interface CreateFilter {
-  name: string;
-  preset: Preset;
-}
-
