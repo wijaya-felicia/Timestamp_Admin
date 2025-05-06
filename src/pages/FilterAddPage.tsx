@@ -636,51 +636,6 @@ const FilterAddPage: React.FC = () => {
                         </div>
                       )}
                     />
-
-                    {/* Gamma */}
-                    <Controller
-                      name="preset.gamma"
-                      control={control}
-                      render={({ field }) => (
-                        <div className="d-flex flex-column gap-2">
-                          <div className="form-check">
-                            <input
-                              type="checkbox"
-                              className="form-check-input"
-                              id="enableGamma"
-                              checked={!!field.value}
-                              onChange={(e) => {
-                                if (e.target.checked) {
-                                  // Create new Uint8Arrays for r, g, b channels
-                                  const defaultArray = new Uint8Array(256);
-                                  for (let i = 0; i < 256; i++) {
-                                    defaultArray[i] = i;
-                                  }
-                                  field.onChange({
-                                    r: defaultArray,
-                                    g: defaultArray.slice(),
-                                    b: defaultArray.slice(),
-                                  });
-                                } else {
-                                  field.onChange(undefined);
-                                }
-                              }}
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="enableGamma"
-                            >
-                              Gamma
-                            </label>
-                          </div>
-                          {field.value && (
-                            <div className="form-text text-info">
-                              Gamma controls enabled (using default values)
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    />
                   </div>
                 </div>
 
