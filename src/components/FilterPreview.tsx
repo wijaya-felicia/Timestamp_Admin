@@ -50,7 +50,6 @@ export const FilterPreview: React.FC<FilterPreviewProps> = ({ filters }) => {
     reader.onload = async (e) => {
       if (!e.target?.result) return;
       
-      // Load the uploaded image into the canvas
       await canvas.current?.loadCustomImage(e.target.result as string, filters.preset);
       setIsUsingCustomImage(true);
     };

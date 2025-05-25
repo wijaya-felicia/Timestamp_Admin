@@ -1,5 +1,4 @@
 import * as Fabric from "fabric";
-import Frame, { Layout } from "./interfaces/Frame";
 import ImageFilterUtilty from "./utilities/ImageFilterUtility.ts";
 import { Preset } from "../types/Filter.ts";
 
@@ -145,13 +144,11 @@ export default class CanvasFraming {
       
       img.onload = () => {
         try {
-          // Clear existing canvas objects
           this.fabricCanvas?.getObjects().forEach((object) => {
             this.fabricCanvas?.remove(object);
           });
           this.fabricCanvas?.clear();
           
-          // Create and add the new image object
           const imgObj = new Fabric.FabricImage(img, {
             hasBorders: false,
             top: 0,
@@ -163,7 +160,6 @@ export default class CanvasFraming {
             name: "frame",
           });
 
-          // Resize image to fit canvas if needed
           const canvasWidth = this.fabricCanvas?.width || 600;
           const canvasHeight = this.fabricCanvas?.height || 300;
           
@@ -174,7 +170,6 @@ export default class CanvasFraming {
             imgObj.scale(scale);
           }
 
-          // Apply filters
           if (filters) {
             ImageFilterUtilty.applyFilter(filters, imgObj);
           }
