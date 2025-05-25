@@ -3,12 +3,12 @@ import { usePage, usePopup } from "../hooks/Context";
 import { errorHandler } from "../hooks/ErrorHandler";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { Overflow } from "../components/Overflow";
-import { CreateFilter, Preset } from "../types/Filter";
+import { CreateFilter } from "../types/Filter";
 import _filter from "../services/FilterService";
 import { ConfirmPopup } from "../components/Popup";
 import { useNavigate } from "react-router-dom";
 import { FilterPreview } from "../components/FilterPreview";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 
 const FilterAddPage: React.FC = () => {
   const { setPage } = usePage();

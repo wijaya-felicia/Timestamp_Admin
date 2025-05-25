@@ -136,4 +136,61 @@ export default class CanvasFraming {
       this.fabricCanvas?.renderAll();
     };
   }
+
+  async loadCustomImage(imageSrc: string, filters: Preset): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.src = imageSrc;
+      
+      img.onload = () => {
+        try {
+          // Clear existing canvas objects
+          this.fabricCanvas?.getObjects().forEach((object) => {
+            this.fabricCanvas?.remove(object);
+          });
+          this.fabricCanvas?.clear();
+          
+          // Create and add the new image object
+          const imgObj = new Fabric.FabricImage(img, {
+            hasBorders: false,
+            top: 0,
+            left: 0,
+            hasControls: false,
+            selectable: false,
+            dirty: true,
+            type: "frame",
+            name: "frame",
+          });
+
+          // Resize image to fit canvas if needed
+          const canvasWidth = this.fabricCanvas?.width || 600;
+          const canvasHeight = this.fabricCanvas?.height || 300;
+          
+          if (img.width > canvasWidth || img.height > canvasHeight) {
+            const scaleX = canvasWidth / img.width;
+            const scaleY = canvasHeight / img.height;
+            const scale = Math.min(scaleX, scaleY);
+            imgObj.scale(scale);
+          }
+
+          // Apply filters
+          if (filters) {
+            ImageFilterUtilty.applyFilter(filters, imgObj);
+          }
+          
+          this.fabricCanvas?.add(imgObj);
+          this.fabricCanvas?.bringObjectToFront(imgObj);
+          this.fabricCanvas?.renderAll();
+          resolve();
+        } catch (error) {
+          reject(error);
+        }
+      };
+      
+      img.onerror = () => {
+        reject(new Error("Failed to load the image"));
+      };
+    });
+  }
 }
