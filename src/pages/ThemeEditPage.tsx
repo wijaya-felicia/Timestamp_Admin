@@ -59,7 +59,7 @@ const ThemeEditPage: React.FC = () => {
                                 .then(response => {
                                     uploadImage(response.url, data.background);
                                     hidePopup();
-                                    navigate(-1);
+                                    // navigate(-1);
                                 }).catch(error => {
                                     handleError(error);
                                 })
